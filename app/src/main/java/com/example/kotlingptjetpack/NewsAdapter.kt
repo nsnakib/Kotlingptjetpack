@@ -8,10 +8,8 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
-// RecyclerView adapter
-class NewsAdapter(private val articles: List<Article>) : RecyclerView.Adapter<NewsAdapter.ViewHolder>() {
+class NewsAdapter(private var articles: List<Article>) : RecyclerView.Adapter<NewsAdapter.ViewHolder>() {
 
-    // ViewHolder class
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val titleTextView: TextView = itemView.findViewById(R.id.titleTextView)
         private val descriptionTextView: TextView = itemView.findViewById(R.id.descriptionTextView)
@@ -20,7 +18,6 @@ class NewsAdapter(private val articles: List<Article>) : RecyclerView.Adapter<Ne
             titleTextView.text = article.title
             descriptionTextView.text = article.description
             itemView.setOnClickListener {
-                // Handle click event (e.g., open the URL in a browser)
                 val intent = Intent(Intent.ACTION_VIEW, Uri.parse(article.url))
                 itemView.context.startActivity(intent)
             }
@@ -39,5 +36,10 @@ class NewsAdapter(private val articles: List<Article>) : RecyclerView.Adapter<Ne
 
     override fun getItemCount(): Int {
         return articles.size
+    }
+
+    fun updateArticles(newArticles: List<Article>) {
+        articles = newArticles
+        notifyDataSetChanged()
     }
 }

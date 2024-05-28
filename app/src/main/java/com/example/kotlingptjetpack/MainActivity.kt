@@ -1,33 +1,36 @@
 package com.example.kotlingptjetpack
-
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.coroutines.CoroutineScope
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.http.GET
 
-// Set up RecyclerView in your activity or fragment.
 class MainActivity : AppCompatActivity() {
 
-    // Declare variables
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: NewsAdapter
+    private lateinit var viewModel: NewsViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        // Initialize RecyclerView and layout manager
         recyclerView = findViewById(R.id.recyclerView)
         recyclerView.layoutManager = LinearLayoutManager(this)
+        adapter = NewsAdapter(emptyList())
+        recyclerView.adapter = adapter
 
-        // Initialize Retrofit
         val retrofit = Retrofit.Builder()
             .baseUrl("https://newsapi.org/v2/")
             .addConverterFactory(GsonConverterFactory.create())
@@ -35,21 +38,14 @@ class MainActivity : AppCompatActivity() {
 
         val service = retrofit.create(NewsApiService::class.java)
 
-        // Fetch data
-        CoroutineScope(Dispatchers.IO).launch {
-            val response = service.getTopHeadlines()
-            withContext(Dispatchers.Main) {
-                if (response.isSuccessful) {
-                    val newsResponse = response.body()
-                    newsResponse?.let {
-                        adapter = NewsAdapter(it.articles)
-                        recyclerView.adapter = adapter
-                    }
-                } else {
-                    // Handle error
-                    Toast.makeText(this@MainActivity, "Error fetching data", Toast.LENGTH_SHORT).show()
-                }
-            }
-        }
+        viewModel = ViewModelProvider(this).get(NewsViewModel::class.java)
+        viewModel.articles.observe(this, { articles ->
+            adapter.updateArticles(articles)
+        })
+        viewModel.error.observe(this, { error ->
+            Toast.makeText(this, error, Toast.LENGTH_SHORT).show()
+        })
+
+        viewModel.fetchTopHeadlines(service)
     }
 }
