@@ -14,12 +14,10 @@ import retrofit2.http.GET
 class NewsViewModel : ViewModel() {
 
     private val _articles = MutableLiveData<List<Article>>()
-    val articles: LiveData<List<Article>>
-        get() = _articles
+    val articles: LiveData<List<Article>> = _articles
 
     private val _error = MutableLiveData<String>()
-    val error: LiveData<String>
-        get() = _error
+    val error: LiveData<String> = _error
 
     fun fetchTopHeadlines(service: NewsApiService) {
         viewModelScope.launch(Dispatchers.IO) {

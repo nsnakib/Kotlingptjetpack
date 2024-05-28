@@ -8,19 +8,26 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
-class NewsAdapter(private var articles: List<Article>) : RecyclerView.Adapter<NewsAdapter.ViewHolder>() {
+class NewsAdapter(private val articles: MutableList<Article>) : RecyclerView.Adapter<NewsAdapter.ViewHolder>() {
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val titleTextView: TextView = itemView.findViewById(R.id.titleTextView)
         private val descriptionTextView: TextView = itemView.findViewById(R.id.descriptionTextView)
 
+        init {
+            itemView.setOnClickListener {
+                val position = adapterPosition
+                if (position != RecyclerView.NO_POSITION) {
+                    val article = articles[position]
+                    val intent = Intent(Intent.ACTION_VIEW, Uri.parse(article.url))
+                    itemView.context.startActivity(intent)
+                }
+            }
+        }
+
         fun bind(article: Article) {
             titleTextView.text = article.title
             descriptionTextView.text = article.description
-            itemView.setOnClickListener {
-                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(article.url))
-                itemView.context.startActivity(intent)
-            }
         }
     }
 
@@ -30,8 +37,7 @@ class NewsAdapter(private var articles: List<Article>) : RecyclerView.Adapter<Ne
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val article = articles[position]
-        holder.bind(article)
+        holder.bind(articles[position])
     }
 
     override fun getItemCount(): Int {
@@ -39,7 +45,8 @@ class NewsAdapter(private var articles: List<Article>) : RecyclerView.Adapter<Ne
     }
 
     fun updateArticles(newArticles: List<Article>) {
-        articles = newArticles
+        articles.clear()
+        articles.addAll(newArticles)
         notifyDataSetChanged()
     }
 }

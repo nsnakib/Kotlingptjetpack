@@ -26,26 +26,39 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        initRecyclerView()
+        initViewModel()
+        observeViewModel()
+        fetchData()
+    }
+
+    private fun initRecyclerView() {
         recyclerView = findViewById(R.id.recyclerView)
         recyclerView.layoutManager = LinearLayoutManager(this)
-        adapter = NewsAdapter(emptyList())
+        adapter = NewsAdapter(mutableListOf())
         recyclerView.adapter = adapter
+    }
 
-        val retrofit = Retrofit.Builder()
-            .baseUrl("https://newsapi.org/v2/")
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-
-        val service = retrofit.create(NewsApiService::class.java)
-
+    private fun initViewModel() {
         viewModel = ViewModelProvider(this).get(NewsViewModel::class.java)
+    }
+
+    private fun observeViewModel() {
         viewModel.articles.observe(this, { articles ->
             adapter.updateArticles(articles)
         })
         viewModel.error.observe(this, { error ->
             Toast.makeText(this, error, Toast.LENGTH_SHORT).show()
         })
+    }
 
+    private fun fetchData() {
+        val retrofit = Retrofit.Builder()
+            .baseUrl("https://newsapi.org/v2/")
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+
+        val service = retrofit.create(NewsApiService::class.java)
         viewModel.fetchTopHeadlines(service)
     }
 }
