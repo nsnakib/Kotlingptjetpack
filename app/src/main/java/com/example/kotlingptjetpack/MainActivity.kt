@@ -54,7 +54,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun fetchData() {
         val retrofit = Retrofit.Builder()
-            .baseUrl("https://newsapi.org/v2/")
+            .baseUrl(Constants.BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
 
@@ -62,3 +62,4 @@ class MainActivity : AppCompatActivity() {
         viewModel.fetchTopHeadlines(service)
     }
 }
+
