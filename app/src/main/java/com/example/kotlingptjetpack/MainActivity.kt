@@ -16,50 +16,19 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
 
+
+
+
+
 class MainActivity : AppCompatActivity() {
-
-    private lateinit var recyclerView: RecyclerView
-    private lateinit var adapter: NewsAdapter
-    private lateinit var viewModel: NewsViewModel
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        initRecyclerView()
-        initViewModel()
-        observeViewModel()
-        fetchData()
-    }
-
-    private fun initRecyclerView() {
-        recyclerView = findViewById(R.id.recyclerView)
-        recyclerView.layoutManager = LinearLayoutManager(this)
-        adapter = NewsAdapter(mutableListOf())
-        recyclerView.adapter = adapter
-    }
-
-    private fun initViewModel() {
-        viewModel = ViewModelProvider(this).get(NewsViewModel::class.java)
-    }
-
-    private fun observeViewModel() {
-        viewModel.articles.observe(this, { articles ->
-            adapter.updateArticles(articles)
-        })
-        viewModel.error.observe(this, { error ->
-            Toast.makeText(this, error, Toast.LENGTH_SHORT).show()
-        })
-    }
-
-    private fun fetchData() {
-        val retrofit = Retrofit.Builder()
-            .baseUrl(Constants.BASE_URL)
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-
-        val service = retrofit.create(NewsApiService::class.java)
-        viewModel.fetchTopHeadlines(service)
+        if (savedInstanceState == null) {
+            supportFragmentManager.beginTransaction()
+                .replace(R.id.fragment_container, NewsFragment())
+                .commit()
+        }
     }
 }
-
