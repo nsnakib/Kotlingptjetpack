@@ -41,7 +41,7 @@ class MainActivity : AppCompatActivity() {
                 R.id.nav_home -> selectedFragment = NewsFragment() // Replace with appropriate fragment
                 R.id.nav_search -> selectedFragment =NewsFragment() // Replace with appropriate fragment
                 R.id.nav_profile -> selectedFragment =NewsFragment() // Replace with appropriate fragment
-                R.id.nav_settings -> selectedFragment = NewsFragment() // Replace with appropriate fragment
+                R.id.nav_settings -> selectedFragment = SettingsFragment() // Replace with appropriate fragment
                 R.id.nav_more -> selectedFragment = NewsFragment() // Replace with appropriate fragment
             }
             if (selectedFragment != null) {
