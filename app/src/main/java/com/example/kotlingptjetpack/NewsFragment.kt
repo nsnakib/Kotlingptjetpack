@@ -1,7 +1,5 @@
 package com.example.kotlingptjetpack
 
-
-
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -24,7 +22,6 @@ class NewsFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_news, container, false)
     }
 
@@ -52,8 +49,14 @@ class NewsFragment : Fragment() {
         viewModel.articles.observe(viewLifecycleOwner, { articles ->
             adapter.updateArticles(articles)
         })
-        viewModel.error.observe(viewLifecycleOwner, { error ->
-            Toast.makeText(context, error, Toast.LENGTH_SHORT).show()
+        viewModel.error.observe(viewLifecycleOwner, {
+
+
+                error ->
+            print(" check error: "+  error);
+            Toast.makeText(context, error, Toast.LENGTH_LONG).show()
+
+        print(" check error: "+  error);
         })
     }
 
