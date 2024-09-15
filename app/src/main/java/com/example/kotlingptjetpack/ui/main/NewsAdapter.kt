@@ -17,6 +17,7 @@ class NewsAdapter(private val articles: MutableList<Article>) : RecyclerView.Ada
 
     inner class ViewHolder(private val binding: ItemNewsBinding) : RecyclerView.ViewHolder(binding.root) {
         init {
+            // Set up click listener to open article URL in browser
             binding.root.setOnClickListener {
                 val position = adapterPosition
                 if (position != RecyclerView.NO_POSITION) {

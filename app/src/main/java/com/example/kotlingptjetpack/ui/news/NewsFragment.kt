@@ -51,16 +51,24 @@ class NewsFragment : Fragment() {
         adapter = NewsAdapter(mutableListOf())
         recyclerView.adapter = adapter
 
+        // Initialize the ViewModel
         viewModel = ViewModelProvider(this).get(NewsViewModel::class.java)
+
+        // Observe LiveData from ViewModel to update UI
         observeViewModel()
+
+        // Fetch data from API
         fetchData()
     }
 
     private fun observeViewModel() {
+        // Observe articles LiveData to update RecyclerView when data changes
         viewModel.articles.observe(viewLifecycleOwner, { articles ->
             adapter.updateArticles(articles)
             progressBar.visibility = View.GONE
         })
+
+        // Observe error LiveData to show error messages
         viewModel.error.observe(viewLifecycleOwner, { error ->
             progressBar.visibility = View.GONE
             Toast.makeText(context, error, Toast.LENGTH_LONG).show()
@@ -68,6 +76,7 @@ class NewsFragment : Fragment() {
     }
 
     private fun fetchData() {
+        // Show progress bar while data is being fetched
         progressBar.visibility = View.VISIBLE
         val retrofit = Retrofit.Builder()
             .baseUrl(Constants.BASE_URL)
@@ -75,6 +84,7 @@ class NewsFragment : Fragment() {
             .build()
 
         val service = retrofit.create(NewsApiService::class.java)
+        // Fetch data from API via ViewModel
         viewModel.fetchTopHeadlines(service)
     }
 }
