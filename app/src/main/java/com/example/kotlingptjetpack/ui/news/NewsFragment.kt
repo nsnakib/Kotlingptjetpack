@@ -1,5 +1,10 @@
 package com.example.kotlingptjetpack.ui.news
 
+import androidx.databinding.DataBindingUtil
+import androidx.databinding.ViewDataBinding
+
+
+
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -21,50 +26,49 @@ class NewsFragment : Fragment() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: NewsAdapter
     private lateinit var viewModel: NewsViewModel
+    private lateinit var progressBar: View
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_news, container, false)
+        val binding = DataBindingUtil.inflate<ViewDataBinding>(
+            inflater,
+            R.layout.fragment_news,
+            container,
+            false
+        )
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        initRecyclerView(view)
-        initViewModel()
-        observeViewModel()
-        fetchData()
-    }
-
-    private fun initRecyclerView(view: View) {
         recyclerView = view.findViewById(R.id.recyclerView)
+        progressBar = view.findViewById(R.id.progressBar)
+
         recyclerView.layoutManager = LinearLayoutManager(context)
         adapter = NewsAdapter(mutableListOf())
         recyclerView.adapter = adapter
-    }
 
-    private fun initViewModel() {
         viewModel = ViewModelProvider(this).get(NewsViewModel::class.java)
+        observeViewModel()
+        fetchData()
     }
 
     private fun observeViewModel() {
         viewModel.articles.observe(viewLifecycleOwner, { articles ->
             adapter.updateArticles(articles)
+            progressBar.visibility = View.GONE
         })
-        viewModel.error.observe(viewLifecycleOwner, {
-
-
-                error ->
-            print(" check error: "+  error);
+        viewModel.error.observe(viewLifecycleOwner, { error ->
+            progressBar.visibility = View.GONE
             Toast.makeText(context, error, Toast.LENGTH_LONG).show()
-
-        print(" check error: "+  error);
         })
     }
 
     private fun fetchData() {
+        progressBar.visibility = View.VISIBLE
         val retrofit = Retrofit.Builder()
             .baseUrl(Constants.BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
