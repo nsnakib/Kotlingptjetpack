@@ -1,4 +1,4 @@
-package com.example.kotlingptjetpack
+package com.example.kotlingptjetpack.utils
 
 
 object Constants {

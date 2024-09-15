@@ -1,5 +1,6 @@
-package com.example.kotlingptjetpack
+package com.example.kotlingptjetpack.data.remote
 
+import com.example.kotlingptjetpack.utils.Constants
 import retrofit2.Response
 import retrofit2.http.GET
 

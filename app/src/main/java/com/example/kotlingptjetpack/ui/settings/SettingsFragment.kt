@@ -1,4 +1,4 @@
-package com.example.kotlingptjetpack
+package com.example.kotlingptjetpack.ui.settings
 
 
 import android.os.Bundle

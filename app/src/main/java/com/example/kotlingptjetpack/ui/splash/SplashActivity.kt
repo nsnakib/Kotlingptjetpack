@@ -1,9 +1,10 @@
-package com.example.kotlingptjetpack
+package com.example.kotlingptjetpack.ui.splash
 
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager.widget.ViewPager
+import com.example.kotlingptjetpack.R
 
 class SplashActivity : AppCompatActivity() {
 

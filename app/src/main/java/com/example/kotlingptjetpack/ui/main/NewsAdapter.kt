@@ -1,4 +1,4 @@
-package com.example.kotlingptjetpack
+package com.example.kotlingptjetpack.ui.main
 
 import android.content.Intent
 import android.net.Uri
@@ -7,6 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.example.kotlingptjetpack.data.model.Article
+import com.example.kotlingptjetpack.R
 
 class NewsAdapter(private val articles: MutableList<Article>) : RecyclerView.Adapter<NewsAdapter.ViewHolder>() {
 

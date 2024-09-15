@@ -1,9 +1,10 @@
-package com.example.kotlingptjetpack
+package com.example.kotlingptjetpack.data.dao
 
 
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
+import com.example.kotlingptjetpack.data.model.Article
 import kotlinx.coroutines.flow.Flow
 
 @Dao

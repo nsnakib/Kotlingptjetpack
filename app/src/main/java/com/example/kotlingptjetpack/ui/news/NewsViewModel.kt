@@ -1,13 +1,16 @@
-package com.example.kotlingptjetpack
+package com.example.kotlingptjetpack.ui.news
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.example.kotlingptjetpack.data.database.AppDatabase
+import com.example.kotlingptjetpack.data.model.Article
+import com.example.kotlingptjetpack.data.dao.ArticleDao
+import com.example.kotlingptjetpack.data.remote.NewsApiService
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 class NewsViewModel(application: Application) : AndroidViewModel(application) {

@@ -1,4 +1,4 @@
-package com.example.kotlingptjetpack
+package com.example.kotlingptjetpack.ui.news
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,6 +9,10 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.kotlingptjetpack.ui.main.NewsAdapter
+import com.example.kotlingptjetpack.data.remote.NewsApiService
+import com.example.kotlingptjetpack.R
+import com.example.kotlingptjetpack.utils.Constants
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
