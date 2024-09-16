@@ -16,7 +16,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        Log.d("MainActivity1", "MainActivity onCreate called")
+        Log.d("MainActivity", "MainActivity onCreate called")
         // Enqueue the LogWorker
         val logWorkerRequest = OneTimeWorkRequest.Builder(LogWorker::class.java)
             .build()
