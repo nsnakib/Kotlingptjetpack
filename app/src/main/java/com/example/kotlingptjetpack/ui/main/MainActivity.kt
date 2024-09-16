@@ -1,7 +1,10 @@
 package com.example.kotlingptjetpack.ui.main
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.work.OneTimeWorkRequest
+import androidx.work.WorkManager
 import com.example.kotlingptjetpack.ui.news.NewsFragment
 import com.example.kotlingptjetpack.R
 import com.example.kotlingptjetpack.ui.settings.SettingsFragment
@@ -13,6 +16,12 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        Log.d("Mainnn", "MainActivity onCreate called")
+        // Enqueue the LogWorker
+        val logWorkerRequest = OneTimeWorkRequest.Builder(LogWorker::class.java)
+            .build()
+
+        WorkManager.getInstance(this).enqueue(logWorkerRequest)
 
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction()
